@@ -52,6 +52,10 @@ namespace Twist.PyCon
             _engine.Runtime.IO.SetOutput(_outputStream, Encoding.UTF8);
         }
 
+        public void AppendGlobal(string key, dynamic value)
+        {
+            _engine.GetBuiltinModule().SetVariable(key, value);
+        }
 
         public async Task RunCommand()
         {

@@ -28,6 +28,8 @@ namespace Twist.PyCon
             ConsoleVM = new ConsoleViewModel();
             DeviceA = new Device();
             DeviceB = new Device();
+            ConsoleVM.AppendGlobal("devA", DeviceA);
+            ConsoleVM.AppendGlobal("devB", DeviceB);
         }
     }
 

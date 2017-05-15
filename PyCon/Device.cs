@@ -6,6 +6,7 @@ namespace Twist.PyCon
     public class Device : ViewModelBase
     {
         private readonly object _lock = new object();
+        private volatile bool StopRequested = false;
 
         public RelayCommand<object> FillCommand { get; private set; }
         public RelayCommand<object> EmptyCommand { get; private set; }
@@ -36,7 +37,13 @@ namespace Twist.PyCon
             {
                 while (Status < 100)
                 {
-                    Thread.Sleep(10);
+                    if (StopRequested)
+                    {
+                        StopRequested = false;
+                        break;
+                    }
+
+                    Thread.Sleep(100);
                     Status++;
                 }
             }
@@ -49,10 +56,21 @@ namespace Twist.PyCon
             {
                 while (Status > 0)
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(100);
+                    if (StopRequested)
+                    {
+                        StopRequested = false;
+                        break;
+                    }
+
                     Status--;
                 }
             }
+        }
+
+        public void Stop()
+        {
+            StopRequested = true;
         }
     }
 }
