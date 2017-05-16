@@ -39,10 +39,11 @@ namespace Twist.PyCon
         private ScriptScope _scope;
         private MemoryStream _outputStream;
 
-        public ConsoleViewModel()
+        public ConsoleViewModel(ScriptScope scope = null)
         {
             _engine = Python.CreateEngine();
-            _scope = _engine.CreateScope();
+            _scope = scope;
+            if (_scope == null) _scope = _engine.CreateScope();
             SetupOutputStream();
         }
 
